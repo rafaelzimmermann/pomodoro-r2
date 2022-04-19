@@ -10,16 +10,7 @@ if [ -z $dir_path ]; then
   dir_path="."
 fi
 
-directories=$(find "${dir_path}" -type d | grep -v "\/\.")
-echo "Creating directories..."
-
-for dir in $directories; do
-    echo "$dir"
-    ampy --port $PORT mkdir --exists-okay "$dir"
-done
-
-
-files=$(find "${dir_path}" -type f | grep "\.py")
+files=$(find "${dir_path}" -type f | grep "\.py" | grep -v lcd | grep -v init)
 echo "Copying files..."
 for f in $files; do
     echo "$f"

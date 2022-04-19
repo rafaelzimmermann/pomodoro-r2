@@ -1,17 +1,17 @@
 #!/bin/bash
 
-set -e
+SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+source $SCRIPTPATH/config.sh
 
-PATH="$PATH:/home/spike/.envs/pomodoro-r2/bin/"
-PORT="/dev/ttyACM0"
-files=$(ampy --port /dev/ttyACM0 ls)
+
+files=$(ampy --port $PORT ls)
 
 if [ -z "${files}" ]; then
   echo "Raspberry pico is empty"
   exit 0
 fi
 
-files=$(ampy --port /dev/ttyACM0 ls | grep "\.py")
+files=$(ampy --port $PORT ls | grep "\.py")
 echo ">"
 if [ -z "${files}" ]; then
   echo "No files."
@@ -19,17 +19,17 @@ else
   echo "Removing files..."
   for f in $files; do
       echo "$f"
-      ampy --port /dev/ttyACM0 rm $f
+      ampy --port $PORT rm $f
   done
 fi
 
-files=$(ampy --port /dev/ttyACM0 ls)
+files=$(ampy --port $PORT ls)
 if [ -z "${files}" ]; then
   echo "No directories."
 else
   echo "Removing directories..."
   for f in $files; do
       echo "$f"
-      ampy --port /dev/ttyACM0 rmdir $f
+      ampy --port $PORT rmdir $f
   done
 fi
